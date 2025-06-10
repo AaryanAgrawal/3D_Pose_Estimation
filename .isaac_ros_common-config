@@ -1,0 +1,2 @@
+CONFIG_IMAGE_KEY="ros2_humble.my"
+CONFIG_DOCKER_SEARCH_DIRS=(~/workspaces/isaac_ros-dev/src/isaac_ros_common/docker)
