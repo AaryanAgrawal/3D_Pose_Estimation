@@ -159,3 +159,10 @@ ros2 topic list | grep -E "(camera|dope)"
 ros2 topic hz /camera/color/image_raw
 rqt_graph
 ```
+
+
+### MATLAB Folder
+
+The MATLAB folder is dedicated to data processing and ground truth generation. It's primarily used on a Windows system, facilitating the import and analysis of detection data exported from the ROS2 workspace. This setup allows for further manipulation, visualization, and comparison with ground truth measurements in a MATLAB environment.
+
+
