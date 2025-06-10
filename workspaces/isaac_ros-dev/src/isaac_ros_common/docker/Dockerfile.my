@@ -1,0 +1,56 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+# install DOPE and Examples packages
+RUN apt-get update && \
+    apt-get install -y \
+      ros-humble-isaac-ros-dope \
+      ros-humble-isaac-ros-examples && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Astra camera dependencies
+RUN apt-get update && apt-get install -y \
+    libgflags-dev \
+    ros-humble-image-geometry \
+    ros-humble-camera-info-manager \
+    ros-humble-image-transport \
+    ros-humble-image-publisher \
+    libgoogle-glog-dev \
+    libusb-1.0-0-dev \
+    libeigen3-dev \
+    git \
+    cmake \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Build libuvc from the workspace (only if directory exists)
+RUN if [ -d "/workspaces/isaac_ros-dev/src/libuvc" ]; then \
+        cd /workspaces/isaac_ros-dev/src/libuvc && \
+        [ ! -d "build" ] && mkdir build; \
+        cd build && \
+        cmake .. && \
+        make -j$(nproc) && \
+        make install && \
+        ldconfig; \
+    fi
+
+# Install Astra camera udev rules (only if directory exists)
+RUN if [ -d "/workspaces/isaac_ros-dev/src/ros2_astra_camera/astra_camera/scripts" ]; then \
+        cd /workspaces/isaac_ros-dev/src/ros2_astra_camera/astra_camera/scripts && \
+        chmod +x install.sh && \
+        ./install.sh && \
+        udevadm control --reload-rules && \
+        udevadm trigger; \
+    fi
+
+# Build Astra camera packages (only if directory exists)
+RUN if [ -d "/workspaces/isaac_ros-dev/src/ros2_astra_camera" ]; then \
+        cd /workspaces/isaac_ros-dev && \
+        /bin/bash -c "source /opt/ros/humble/setup.bash && \
+        colcon build --event-handlers console_direct+ \
+        --cmake-args -DCMAKE_BUILD_TYPE=Release \
+        --packages-select astra_camera astra_camera_msgs"; \
+    fi
+
+# Verify libuvc installation (if it was built)
+RUN ldconfig -p | grep libuvc && echo "libuvc found" || echo "libuvc not installed in container"
