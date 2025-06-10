@@ -1,0 +1,41 @@
+# General ignored files/directories (common in home directories)
+.aws/
+.azure/
+.bash_history
+.cache/
+.docker/
+.gitconfig
+.landscape/
+.local/
+.motd_shown
+.npm/
+.nvm/
+.ros/
+.ssh/
+.vscode-remote-containers/
+.vscode-server/
+Downloads/
+build/
+install/
+log/
+datasets/ # Only ignore if these are very large or not part of code
+opt/ # Often contains installed software
+
+# Isaac ROS specific ignores (based on your output)
+workspaces/isaac_ros-dev/build/
+workspaces/isaac_ros-dev/install/
+workspaces/isaac_ros-dev/log/
+# If the models are downloaded/generated and should not be tracked, ignore them:
+# workspaces/isaac_ros-dev/isaac_ros_assets/models/
+# workspaces/isaac_ros-dev/src/isaac_ros_pose_estimation/isaac_ros_centerpose/test/models/
+# workspaces/isaac_ros-dev/src/isaac_ros_pose_estimation/test/models/
+
+# Standard ignores for development environments
+# General build/install directories
+build/
+install/
+log/
+
+# Python virtual environments
+venv/
+.venv/
