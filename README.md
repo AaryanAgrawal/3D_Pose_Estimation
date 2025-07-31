@@ -2,6 +2,7 @@
 
 <img width="1444" height="1002" alt="image" src="https://github.com/user-attachments/assets/3e8bf5ec-c2c7-4cfb-b2db-80a9c9367dba" />
 
+
 This repository contains the development environment setup for Isaac ROS DOPE (Deep Object Pose Estimation) with Astra camera integration for robotic manipulation tasks.
 
 ## Project Overview
